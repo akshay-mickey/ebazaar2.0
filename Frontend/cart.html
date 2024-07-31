@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="categoryStyle.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <h1>Website</h1>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="category.html">Category</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Cart</h2>
+        <div id="cartResults">
+            <!-- Cart items will be displayed here -->
+        </div>
+    </main>
+
+    <script>
+        async function fetchCart() {
+            try {
+                const response = await fetch('http://127.0.0.1:8088/product/api/v1.0/cart');
+                const data = await response.json();
+                console.log(data);
+
+                if (response.ok) {
+                    if (data.length > 0) {
+                        document.getElementById('cartResults').innerHTML = data.map(item => `
+                            <div class="item">
+                                <img src="${item.productImage}" alt="${item.productName}" style="width: 200px; height: auto;">
+                                <h3>${item.productName}</h3>
+                                <p><strong>Price:</strong> $${item.productPrice}</p>
+                                <p>${item.productDescription}</p>
+                            </div>
+                        `).join('');
+                    } else {
+                        document.getElementById('cartResults').innerHTML = 'No items in cart.';
+                    }
+                } else {
+                    document.getElementById('cartResults').innerHTML = 'Error: ' + data.message;
+                }
+            } catch (error) {
+                document.getElementById('cartResults').innerHTML = 'An error occurred: ' + error.message;
+            }
+        }
+
+        fetchCart();
+    </script>
+</body>
+</html>
