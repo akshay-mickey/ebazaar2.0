@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <link rel="stylesheet" href="productFromStyle.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="productHomePage.html">Home</a></li>
+                    <li><a href="product-form.html">Add Product</a></li>
+                    <li><a href="updateProduct.html">Update Product</a></li>
+                    <li><a href="deleteProduct.html">Delete Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <form id="productForm">
+        <!-- Product ID field is not needed for user input -->
+        <!-- <div>
+            <label for="productId">Product ID</label>
+            <input type="text" id="productId" name="productId" required>
+        </div> -->
+
+        <div>
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" name="productName" required>
+        </div>
+
+        <div>
+            <label for="productDescription">Product Description</label>
+            <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+        </div>
+
+        <div>
+            <label for="productPrice">Product Price</label>
+            <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+        </div>
+
+        <div>
+            <label for="productQuantity">Product Quantity</label>
+            <input type="number" id="productQuantity" name="productQuantity" required>
+        </div>
+
+        <div>
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="home">Home</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="productBrand">Product Brand</label>
+            <input type="text" id="productBrand" name="productBrand" required>
+        </div>
+
+        <div>
+            <label for="productImage">Product Image URL</label>
+            <input type="url" id="productImage" name="productImage" required>
+        </div>
+
+        <div>
+            <label for="productSpecification">Product Specification</label>
+            <textarea id="productSpecification" name="productSpecification" rows="4" required></textarea>
+        </div>
+
+        <div>
+            <button type="submit">Submit Product</button>
+        </div>
+    </form>
+
+    <div id="responseMessage"></div>
+    <div id="productIdDisplay"></div>
+
+    <script>
+        document.getElementById('productForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Extract form values
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+            const category = document.getElementById('category').value;
+            const productBrand = document.getElementById('productBrand').value;
+            const productImage = document.getElementById('productImage').value;
+            const productSpecification = document.getElementById('productSpecification').value;
+    
+            const urlEncodedData = {
+                productName,
+                productDescription,
+                productPrice,
+                productQuantity,
+                category,
+                productBrand,
+                productImage,
+                productSpecification
+            };
+            
+            // Send data using fetch
+            try {
+                const response = await fetch('http://localhost:8088/product/api/v1.0/addproduct', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(urlEncodedData)
+                });
+                
+
+            } catch (error) {
+
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.innerHTML = '<p style="color: red;">There was an error submitting the form.</p>';
+            }
+        });
+    </script>
+    
+</body>
+</html>

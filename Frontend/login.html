@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="loginStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultMessage = document.getElementById('result');
+
+            try {
+                const response = await fetch('http://127.0.0.1:8088/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'email': email,
+                        'password': password
+                    })
+                });
+
+                const data = await response.text();
+
+                if (response.ok) {
+                    if (data === "Login successful") {
+                        resultMessage.textContent = 'Login successful! Redirecting to home...';
+                        resultMessage.style.color = 'green'; // Optional: indicate success in green
+                        setTimeout(() => {
+                            window.location.href = '/home.html';
+                        }, 3000); 
+                    } else {
+                        resultMessage.textContent = data;
+                        resultMessage.style.color = 'red'; // Display error messages in red
+                    }
+                } else {
+                    resultMessage.textContent = 'Login failed: ' + data;
+                    resultMessage.style.color = 'red'; // Display error messages in red
+                }
+            } catch (error) {
+                resultMessage.textContent = 'An error occurred: ' + error.message;
+                resultMessage.style.color = 'red'; // Display error messages in red
+            }
+        });
+    </script>
+</body>
+</html>

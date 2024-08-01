@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="indexStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registrationForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Register</button>
+            <div id="error-message"></div> <!-- Error message placeholder -->
+            <div id="result"></div> <!-- Result message placeholder -->
+        </form>
+    </div>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const resultMessage = document.getElementById('result');
+
+            // Clear previous messages
+            errorMessage.textContent = '';
+            resultMessage.textContent = '';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8088/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'email': email,
+                        'password': password
+                    })
+                });
+
+                const data = await response.text();
+                
+                if (response.ok) {
+                    if (data === "Registration successful") {
+                        resultMessage.textContent = 'Registration successful! Redirecting to login...';
+                        setTimeout(() => {
+                            window.location.href = '/login.html';
+                        }, 3000); 
+                    } else {
+                        errorMessage.textContent = data;
+                    }
+                } else {
+                    errorMessage.textContent = 'Registration failed: ' + data;
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
