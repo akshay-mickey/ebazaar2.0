@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+    <link rel="stylesheet" href="deleteProductStyle.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <h1>Website</h1>
+            <nav>
+                <ul>
+                    <li><a href="productHomePage.html">Home</a></li>
+                    <li><a href="addToInventory.html">Add Product</a></li>
+                    <li><a href="inventory.html">Inventory</a></li>
+                    <li><a href="updateProduct.html">Update Product</a></li>
+                  
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Delete Product</h2>
+        <form id="deleteProductForm">
+            <div>
+                <label for="productId">Product ID</label>
+                <input type="text" id="productId" name="productId" required>
+            </div>
+
+            <div>
+                <button type="submit">Delete Product</button>
+            </div>
+        </form>
+
+        <div id="responseMessage"></div>
+    </main>
+
+    <script>
+        document.getElementById('deleteProductForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const productId = document.getElementById('productId').value.trim();
+            const responseMessage = document.getElementById('responseMessage');
+
+            if (!productId) {
+                responseMessage.innerHTML = '<p style="color: red;">Please enter a product ID.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8899/product/api/v1.0/delete/${productId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    responseMessage.innerHTML = '<p style="color: green;">Product successfully deleted.</p>';
+                } else {
+                    const data = await response.json();
+                    responseMessage.innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                responseMessage.innerHTML = '<p style="color: red;">An error occurred. Please try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

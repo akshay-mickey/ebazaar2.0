@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="updateProductStyle.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <h1>Update Product</h1>
+            <nav>
+                <ul>
+                    <li><a href="productHomePage.html">Home</a></li>
+                    <li><a href="inventory.html">Inventory</a></li>
+                    <li><a href="addToInventory.html">Add Product</a></li>
+                   
+                    <li><a href="deleteProduct.html">Delete Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Update Product Details</h2>
+        <form id="updateProductForm">
+            <div>
+                <label for="productId">Product ID</label>
+                <input type="text" id="productId" name="productId" required>
+            </div>
+
+            <div>
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" name="productName" required>
+            </div>
+
+            <div>
+                <label for="productDescription">Product Description</label>
+                <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <label for="productPrice">Product Price</label>
+                <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+            </div>
+
+            <div>
+                <label for="productQuantity">Product Quantity</label>
+                <input type="number" id="productQuantity" name="productQuantity" required>
+            </div>
+
+            <div>
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="home">Home</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="productBrand">Product Brand</label>
+                <input type="text" id="productBrand" name="productBrand" required>
+            </div>
+
+            <div>
+                <label for="productImage">Product Image URL</label>
+                <input type="url" id="productImage" name="productImage" required>
+            </div>
+
+            <div>
+                <label for="productSpecification">Product Specification</label>
+                <textarea id="productSpecification" name="productSpecification" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <button type="submit">Update Product</button>
+            </div>
+        </form>
+
+        <div id="responseMessage"></div>
+    </main>
+
+    <script>
+        // Function to fetch product details and populate the form
+        async function fetchProductDetails(productId) {
+            try {
+                const response = await fetch(`http://localhost:8899/product/api/v1.0/update`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('productId').value = data.productId;
+                    document.getElementById('productName').value = data.productName;
+                    document.getElementById('productDescription').value = data.productDescription;
+                    document.getElementById('productPrice').value = data.productPrice;
+                    document.getElementById('productQuantity').value = data.productQuantity;
+                    document.getElementById('category').value = data.category;
+                    document.getElementById('productBrand').value = data.productBrand;
+                    document.getElementById('productImage').value = data.productImage;
+                    document.getElementById('productSpecification').value = data.productSpecification;
+                } else {
+                    document.getElementById('responseMessage').innerHTML = '<p style="color: red;">Product not found.</p>';
+                }
+            } catch (error) {
+                document.getElementById('responseMessage').innerHTML = '<p style="color: red;">An error occurred: ' + error.message + '</p>';
+            }
+        }
+
+        document.getElementById('updateProductForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Extract form values
+            const productId = document.getElementById('productId').value;
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+            const category = document.getElementById('category').value;
+            const productBrand = document.getElementById('productBrand').value;
+            const productImage = document.getElementById('productImage').value;
+            const productSpecification = document.getElementById('productSpecification').value;
+
+            const updatedProduct = {
+                productId,
+                productName,
+                productDescription,
+                productPrice,
+                productQuantity,
+                category,
+                productBrand,
+                productImage,
+                productSpecification
+            };
+            console.log(updatedProduct)
+
+            try {
+                const response = await fetch(`http://localhost:8899/product/api/v1.0/update`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedProduct)
+                 });
+
+                if (response.ok) {
+                    document.getElementById('responseMessage').innerHTML = '<p style="color: green;">Product updated successfully!</p>';
+                } else {
+                    const data = await response.json();
+                    document.getElementById('responseMessage').innerHTML = '<p style="color: red;">Error: ' + data.message + '</p>';
+                }
+            } catch (error) {
+                document.getElementById('responseMessage').innerHTML = '<p style="color: red;">An error occurred: ' + error.message + '</p>';
+            }
+        });
+
+        
+    </script>
+
+</body>
+</html>

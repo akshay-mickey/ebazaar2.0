@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search and Filter</title>
+    <link rel="stylesheet" href="category.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Product Search and Filter</h1>
+        </header>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search for products...">
+        </div>
+        <div class="filters">
+            <div class="filter-group">
+                <label for="category">Category:</label>
+                <select id="category">
+                    <option value="">All</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Home">Home</option>
+                    <!-- Add more categories as needed -->
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" placeholder="Enter brand name">
+            </div>
+            <div class="filter-group">
+                <label for="minPrice">Price Range:</label>
+                <input type="number" id="minPrice" placeholder="Min Price">
+                <input type="number" id="maxPrice" placeholder="Max Price">
+            </div>
+            <div class="filter-group">
+                <label for="sort">Sort By:</label>
+                <select id="sort">
+                    <option value="">Default</option>
+                    <option value="priceAsc">Price: Low to High</option>
+                    <option value="priceDesc">Price: High to Low</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+        <div id="results" class="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+    <script src="category.js"></script>
+</body>
+</html>

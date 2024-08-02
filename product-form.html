@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <link rel="stylesheet" href="productFromStyle.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="productHomePage.html">Home</a></li>
+                   
+                    <li><a href="inventory.html">Inventory</a></li>
+                    <li><a href="updateProduct.html">Update Product</a></li>
+                    <li><a href="deleteProduct.html">Delete Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <form id="productForm">
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" name="productName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Product Description</label>
+                <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="productPrice">Product Price</label>
+                <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productQuantity">Product Quantity</label>
+                <input type="number" id="productQuantity" name="productQuantity" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="home">Home</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="productBrand">Product Brand</label>
+                <input type="text" id="productBrand" name="productBrand" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productImage">Product Image URL</label>
+                <input type="url" id="productImage" name="productImage" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productSpecification">Product Specification</label>
+                <textarea id="productSpecification" name="productSpecification" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit Product</button>
+            </div>
+        </form>
+
+        <div id="responseMessage" class="response-message"></div>
+        <div id="productIdDisplay" class="product-id-display"></div>
+
+        <!-- Product details confirmation -->
+        <div id="productDetails" class="product-details" style="display: none;">
+            <h2>Product Details</h2>
+            <p><strong>Product Name:</strong> <span id="displayProductName"></span></p>
+            <p><strong>Description:</strong> <span id="displayProductDescription"></span></p>
+            <p><strong>Price:</strong> $<span id="displayProductPrice"></span></p>
+            <p><strong>Quantity:</strong> <span id="displayProductQuantity"></span></p>
+            <p><strong>Category:</strong> <span id="displayCategory"></span></p>
+            <p><strong>Brand:</strong> <span id="displayProductBrand"></span></p>
+            <p><strong>Image URL:</strong> <span id="displayProductImage"></span></p>
+            <p><strong>Specification:</strong> <span id="displayProductSpecification"></span></p>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('productForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Extract form values
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+            const category = document.getElementById('category').value;
+            const productBrand = document.getElementById('productBrand').value;
+            const productImage = document.getElementById('productImage').value;
+            const productSpecification = document.getElementById('productSpecification').value;
+    
+            const urlEncodedData = {
+                productName,
+                productDescription,
+                productPrice,
+                productQuantity,
+                category,
+                productBrand,
+                productImage,
+                productSpecification
+            };
+            
+            // Send data using fetch
+            try {
+                const response = await fetch('http://localhost:8899/product/api/v1.0/addproduct', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(urlEncodedData)
+                });
+                
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    
+                    // Display success message and product ID
+                    document.getElementById('responseMessage').innerHTML = '<p class="success-message">Product added successfully!</p>';
+                    document.getElementById('productIdDisplay').innerHTML = `<p>Product ID: ${data.productId}</p>`;
+                    
+                    // Display product details
+                    document.getElementById('productDetails').style.display = 'block';
+                    document.getElementById('displayProductName').textContent = productName;
+                    document.getElementById('displayProductDescription').textContent = productDescription;
+                    document.getElementById('displayProductPrice').textContent = productPrice;
+                    document.getElementById('displayProductQuantity').textContent = productQuantity;
+                    document.getElementById('displayCategory').textContent = category;
+                    document.getElementById('displayProductBrand').textContent = productBrand;
+                    document.getElementById('displayProductImage').textContent = productImage;
+                    document.getElementById('displayProductSpecification').textContent = productSpecification;
+                } else {
+                    // Handle server errors
+                    const errorData = await response.json();
+                    document.getElementById('responseMessage').innerHTML = `<p class="error-message">Error: ${errorData.message}</p>`;
+                }
+            } catch (error) {
+                // Handle network errors
+                console.log(error)
+                document.getElementById('responseMessage').innerHTML = '<p class="error-message">There was an error submitting the form.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
