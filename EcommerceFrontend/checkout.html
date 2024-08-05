@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - E-commerce</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="wishlist.html">Wishlist</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Checkout</h1>
+        <form id="checkout-form">
+            <label for="shipping-address">Shipping Address:</label>
+            <input type="text" id="shipping-address" name="shipping-address" required>
+            <br>
+            <label for="billing-address">Billing Address:</label>
+            <input type="text" id="billing-address" name="billing-address" required>
+            <br>
+            <label for="payment-method">Payment Method:</label>
+            <select id="payment-method" name="payment-method" required>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+            </select>
+            <br>
+            <button type="submit">Complete Purchase</button>
+        </form>
+    </main>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
