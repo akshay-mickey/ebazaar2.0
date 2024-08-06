@@ -15,7 +15,25 @@ public class ProductService {
     public List<Product> getProductsByCategory(Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
+    
+    public List<Product> searchProducts(Double minPrice, Double maxPrice, String brand) {
+        if (minPrice != null && maxPrice != null) {
+            return productRepository.findByPriceBetween(minPrice, maxPrice);
+        } else if (brand != null) {
+            return productRepository.findByBrand(brand);
+        } else {
+            return productRepository.findAll(); // Default case
+        }
+    }
+    
+//    public List<Product> searchProducts(String keyword) {
+//        return productRepository.searchProducts(keyword);
+//    }
 
+    
+    public List<Product> getAllUsers() {
+        return productRepository.findAll();
+    }
 
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);

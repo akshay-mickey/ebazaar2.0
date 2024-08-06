@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/category.js" defer></script>
+</head>
+<body>
+    <h1>Category Management</h1>
+    <form id="create-category-form">
+        <h2>Create New Category</h2>
+        <label for="category-name">Name:</label>
+        <input type="text" id="category-name" required>
+        <label for="category-image-url">Image URL:</label>
+        <input type="text" id="category-image-url" required>
+        <button type="submit">Create Category</button>
+    </form>
+    
+    <h2>Categories</h2>
+    <ul id="category-list"></ul>
+
+    <div id="update-category" style="display:none;">
+        <h2>Update Category</h2>
+        <form id="update-category-form">
+            <input type="hidden" id="update-category-id">
+            <label for="update-category-name">Name:</label>
+            <input type="text" id="update-category-name" required>
+            <label for="update-category-image-url">Image URL:</label>
+            <input type="text" id="update-category-image-url" required>
+            <button type="submit">Update Category</button>
+        </form>
+    </div>
+</body>
+</html>

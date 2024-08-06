@@ -16,12 +16,28 @@ public class Product {
     private Double price;
     private String description;
     private String imageUrl;
-
+    private Integer quantity;
+    private String brand; 
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonBackReference
     private Category category;
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 	public Long getId() {
 		return id;
 	}

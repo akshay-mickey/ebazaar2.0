@@ -1,5 +1,6 @@
 package com.tcs.project.category;
 
+import java.util.List;
 import java.util.Set;
 
 import com.tcs.project.product.Product;
@@ -15,11 +16,12 @@ public class Category {
     private String imageUrl;
 
     @OneToMany(mappedBy = "category")
-    private Set<Product> products;
+    private List<Product> products;
 
 	public Long getId() {
 		return id;
 	}
+
 
 	public void setId(Long id) {
 		this.id = id;
@@ -41,15 +43,15 @@ public class Category {
 		this.imageUrl = imageUrl;
 	}
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
-	public Category(Long id, String name, String imageUrl, Set<Product> products) {
+	public Category(Long id, String name, String imageUrl, List<Product> products) {
 		super();
 		this.id = id;
 		this.name = name;

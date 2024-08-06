@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <style>
+        #update-product {
+            display: none;
+        }
+    </style>
+        <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Product Management</h1>
+
+    <!-- Create Product Form -->
+    <h2>Create Product</h2>
+    <form id="create-product-form">
+        <input id="product-name" type="text" placeholder="Product Name" required>
+        <input id="product-price" type="number" step="0.01" placeholder="Price" required>
+        <input id="product-description" type="text" placeholder="Description">
+        <input id="product-image-url" type="text" placeholder="Image URL">
+        <input id="product-quantity" type="number" placeholder="Quantity" required>
+        <input id="product-brand" type="text" placeholder="Brand">
+        <select id="productCategory">
+            <!-- Populate with categories dynamically -->
+        </select>
+        <br>
+        <button type="submit">Create Product</button>
+    </form>
+
+    <!-- Update Product Form -->
+    <h2>Update Product</h2>
+    <div id="update-product">
+        <form id="update-product-form">
+            <input id="update-product-id" type="hidden">
+            <input id="update-product-name" type="text" placeholder="Product Name" required>
+            <input id="update-product-price" type="number" step="0.01" placeholder="Price" required>
+            <input id="update-product-description" type="text" placeholder="Description">
+            <input id="update-product-image-url" type="text" placeholder="Image URL">
+            <input id="update-product-quantity" type="number" placeholder="Quantity" required>
+            <input id="update-product-brand" type="text" placeholder="Brand">
+            <select id="updateProductCategory">
+                <!-- Populate with categories dynamically -->
+            </select>
+            <button type="submit">Update Product</button>
+        </form>
+    </div>
+
+    <!-- Product List -->
+    <h2>Product List</h2>
+    <ul id="product-list">
+        <!-- Products will be loaded here dynamically -->
+    </ul>
+
+    <script src="js/product.js"></script>
+</body>
+</html>
